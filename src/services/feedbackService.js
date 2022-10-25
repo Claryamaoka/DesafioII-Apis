@@ -1,29 +1,31 @@
 const { response } = require('express');
 const Feedback = require("../model/feedback");
 const Validate = require("./validationService");
-
-let db = [new Feedback("1","Banana","Frutas"),new Product("2","Leite","Laticínios")];
+const dao = require("../dao/feedbackDao");
 
 class FeedbackService {
     async find() {
-        return db;
-    }
-
-    async findById(id) {
-        var res = db.find(x => x.id == id)
-        if(!res)
-            return null;
-        return res;
+        return dao.readAllData();
     }
 
     async create(body){
         if(!body)
             return null;
-        if(Validate.validateCreate(body,db)){
-            db.push(new Product(body.id,body.name,body.section));
-            return db;
+        if(Validate.validateFeedback(body)){
+            return dao.insertData(body);
         }
+        return null;   
+    }
+
+    async update(body, code){
+        if(!body)
+            return null;
         
+        return dao.updateData(body,code);
+    }
+
+    async delete(code){
+        return dao.deleteData(code);
     }
 }
 

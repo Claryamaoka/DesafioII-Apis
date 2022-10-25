@@ -21,10 +21,9 @@ class FeedbackController {
         await service.find()
             .then(
                 response => {
-                    response = response.sort(function(a, b) { 
-                        (a.name.localeCompare(b.name));
-                      });
-                    return res.status(200).json(response);
+                if(response == null)
+                    return res.status(400).json(new Output("400","Error","Não foi possível listar os feedbacks."));
+                return res.status(200).json(response);
                 }
             )
             .catch(error => {
@@ -32,22 +31,36 @@ class FeedbackController {
             })
     }
 
-    async getById(req, res) {
+    async update(req, res) {
         const code = req.params.code;
-
-        await service.findById(code)
-            .then(
-                response => {
-                    if(response == null)
-                        return res.status(400).json(new Output("400","Not Found","O produto não foi encontrado"));
-
-                    return res.status(200).json(response);
-                }
-            )
-            .catch(error => {
-                return res.status(500).json(error)
+        await service.update(req.body, code)
+            .then(response => {
+                if(response == null)
+                    return res.status(400).json(new Output("400","Not Found","O feedback não foi encontrado"));
+                if(response == "Error")
+                    return res.status(400).json(new Output("400","Update Error","O id não pode ser repetido"));
+                return res.status(200).json(response);
             })
+            .catch(error => {
+                return res.status(500).json(error);
+            });
     }
+
+    async delete(req, res) {
+        const code = req.params.code;
+        await service.delete(req.body, code)
+            .then(response => {
+                if(response == null)
+                    return res.status(400).json(new Output("400","Not Found","O feedback não foi encontrado"));
+                if(response == "Error")
+                    return res.status(400).json(new Output("400","Update Error","O id não pode ser repetido"));
+                return res.status(200).json(response);
+            })
+            .catch(error => {
+                return res.status(500).json(error);
+            });
+    }
+
 }
 
 module.exports = new FeedbackController();

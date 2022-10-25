@@ -1,44 +1,31 @@
 const { response } = require('express');
 const Employee = require("../model/employee");
 const Validate = require("./validationService");
+const dao = require("../dao/employeeDao");
 
 class EmployeeService {
     async find() {
-        return db;
-    }
-
-    async findById(id) {
-        var res = db.find(x => x.id == id)
-        if(!res)
-            return null;
-        return res;
+        return dao.readAllData();
     }
 
     async create(body){
         if(!body)
             return null;
-        if(Validate.validateCreate(body,db)){
-            db.push(new Establishment(body.id,body.name,body.address,body.image));        
-            return db;
+        if(Validate.validateEmployee(body)){
+            return dao.insertData(body);
         }
         return null;   
     }
 
     async update(body, code){
-        var res = db.find(x => x.id == code)
-        if(!res)
+        if(!body)
             return null;
         
-        if(!Validate.validateUpdate(code,body,db)){
-            return "Error";
-        }
-        var foundIndex = db.findIndex(x => x.id == code);
-        db[foundIndex] = new Establishment(body.id,body.name,body.address,body.image);
-        return db;
+        return dao.updateData(body,code);
     }
 
     async delete(code){
-
+        return dao.deleteData(code);
     }
 }
 

@@ -5,30 +5,12 @@ const Output = require("../model/output");
 
 class PositionController {
     async list(req, res) {
-        //await service.find().sort("id")
         await service.find()
             .then(
                 response => {
                     response = response.sort(function(a, b) { 
-                        (a.id - b.id);
+                        (a.cpf - b.cpf);
                       });
-                    return res.status(200).json(response);
-                }
-            )
-            .catch(error => {
-                return res.status(500).json(error)
-            })
-    }
-
-    async getById(req, res) {
-        const code = req.params.code;
-
-        await service.findById(code)
-            .then(
-                response => {
-                    if(response == null)
-                        return res.status(400).json(new Output("400","Not Found","O setor não foi encontrado"));
-
                     return res.status(200).json(response);
                 }
             )
@@ -40,6 +22,36 @@ class PositionController {
     async create(req, res) {
         await service.create(req.body)
             .then(response => {
+                return res.status(200).json(response);
+            })
+            .catch(error => {
+                return res.status(500).json(error);
+            });
+    }
+
+    async update(req, res) {
+        const code = req.params.code;
+        await service.update(req.body, code)
+            .then(response => {
+                if(response == null)
+                    return res.status(400).json(new Output("400","Not Found","A posição não foi encontrada"));
+                if(response == "Error")
+                    return res.status(400).json(new Output("400","Update Error","O id não pode ser repetido"));
+                return res.status(200).json(response);
+            })
+            .catch(error => {
+                return res.status(500).json(error);
+            });
+    }
+
+    async delete(req, res) {
+        const code = req.params.code;
+        await service.delete(req.body, code)
+            .then(response => {
+                if(response == null)
+                    return res.status(400).json(new Output("400","Not Found","A posição não foi encontrada"));
+                if(response == "Error")
+                    return res.status(400).json(new Output("400","Update Error","O id não pode ser repetido"));
                 return res.status(200).json(response);
             })
             .catch(error => {

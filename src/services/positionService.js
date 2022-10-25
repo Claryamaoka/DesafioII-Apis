@@ -1,25 +1,31 @@
 const { response } = require('express');
 const Position = require("../model/position");
-
-let db = [new Section("1","Açougue"),new Section("2","Frutas"),new Section("3","Laticínios")];
+const dao = require("../dao/positionDao");
+const Validate = require("./validationService");
 
 class PositionService {
     async find() {
-        return db;
-    }
-
-    async findById(id) {
-        var res = db.find(x => x.id == id)
-        if(!res)
-            return null;
-        return res;
+        return dao.readAllData();
     }
 
     async create(body){
         if(!body)
             return null;
-        db.push(new Section(body.id,body.name));
-        return db;
+        if(Validate.validatePosition(body)){
+            return dao.insertData(body);
+        }
+        return null;   
+    }
+
+    async update(body, code){
+        if(!body)
+            return null;
+        
+        return dao.updateData(body,code);
+    }
+
+    async delete(code){
+        return dao.deleteData(code);
     }
 }
 
