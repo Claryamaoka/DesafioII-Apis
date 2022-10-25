@@ -12,7 +12,7 @@ class PositionDao{
         function (err, results, fields) {
             if (err) throw err;
             else console.log('Selected ' + results.length + ' row(s).');
-            for (i = 0; i < results.length; i++) {
+            for (let i = 0; i <= results.length; i++) {
                 console.log('Row: ' + JSON.stringify(results[i]));
             }
             console.log('Done.');
