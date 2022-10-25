@@ -1,13 +1,10 @@
 const mySqlConfig = require("../dao/mysql");
+const { Connect } = require("../dao/mysql");
 
-const conn = "";
+let conn = "";
 class FeedbackDao{
     constructor(){
-        conn = mySqlConfig.Connect();
-    }
-
-    connect(){
-        
+        conn = Connect();
     }
 
     readAllData(){

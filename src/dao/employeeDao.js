@@ -1,13 +1,10 @@
 const mySqlConfig = require("../dao/mysql");
+const { Connect } = require("../dao/mysql");
 
-const conn = "";
+let conn = "";
 class EmployeeDao{
     constructor(){
-        conn = mySqlConfig.Connect();
-    }
-
-    connect(){
-        
+        conn = Connect();
     }
 
     readAllData(){
@@ -28,7 +25,7 @@ class EmployeeDao{
     }
 
     readData(code){
-        conn.query('SELECT * FROM inventory where id = ' + code, 
+        conn.query('SELECT * FROM employee where id = ' + code, 
         function (err, results, fields) {
             if (err) throw err;
             else console.log('Selected ' + results.length + ' row(s).');
