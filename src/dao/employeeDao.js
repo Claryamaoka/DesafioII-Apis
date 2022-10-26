@@ -4,7 +4,7 @@ const { Connect } = require("../dao/mysql");
 let conn = "";
 class EmployeeDao {
     constructor() {
-        conn = mySqlConfig.Connect();
+        conn = Connect();
     }
 
     connect() {
@@ -12,8 +12,6 @@ class EmployeeDao {
     }
 
 readAllData() {
-        conn.connect();
-        console.log(conn);
         conn.query('SELECT * FROM tb_employees',
             function (err, results, fields) {
                 if (err) throw err;
