@@ -23,9 +23,7 @@ function Connect() {
                 //queryDatabase();
             }
         });
-
-    function Connect() {
-        return new mysql.createConnection(config);
+    return conn;
     }
 
     module.exports = { Connect }
