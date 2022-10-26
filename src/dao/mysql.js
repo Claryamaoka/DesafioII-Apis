@@ -9,25 +9,25 @@ var config =
     database: 'lpiv_desafio_n1b2'
 };
 
-function Connect(){
+function Connect() {
     const conn = new mysql.createConnection(config);
 
-conn.connect(
-    function (err) {
-        if (err) {
-            console.log("!!! Cannot connect !!! Error:");
-            //throw err;
-        }
-    else
-    {
-            console.log("Connection established.");
-            //queryDatabase();
-        }
-    });
+    conn.connect(
+        function (err) {
+            if (err) {
+                console.log("!!! Cannot connect !!! Error:");
+                //throw err;
+            }
+            else {
+                console.log("Connection established.");
+                //queryDatabase();
+            }
+        });
 
-function Connect(){
+    function Connect() {
         return new mysql.createConnection(config);
     }
 
-module.exports = { Connect }
+    module.exports = { Connect }
 
+}
