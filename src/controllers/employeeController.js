@@ -13,7 +13,7 @@ class EmployeeController {
                     if(response == null)
                         return res.status(400).json(new Output("400","Error","Não foi possível trazer os dados"));
 
-                    return res.status(200).json(response);
+                    return res.status(200).json(JSON.parse(response));
                 }
             )
             .catch(error => {
