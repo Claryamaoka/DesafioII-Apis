@@ -48,7 +48,7 @@ class FeedbackController {
 
     async delete(req, res) {
         const code = req.params.code;
-        await service.delete(req.body, code)
+        await service.delete(code)
             .then(response => {
                 if(response == null)
                     return res.status(400).json(new Output("400","Not Found","O feedback não foi encontrado"));

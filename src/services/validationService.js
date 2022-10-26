@@ -9,7 +9,7 @@ class ValidationService{
     // }
 
     validateEmployee(obj){
-        if(!obj.name || !obj.cpf || !obj.rg || !obj.genre||!obj.birthday||!obj.admission||!obj.resignation)
+        if(!obj.name || !obj.cpf || !obj.rg || !obj.genre||!obj.birthday||!obj.admission)
             return false;        
         return true;
     }

@@ -6,14 +6,13 @@ const Output = require("../model/output");
 
 class EmployeeController {
     async list(req, res) {
-        //await service.find().sort("id")
         await service.find()
             .then(
                 response => {
                     if(response == null)
                         return res.status(400).json(new Output("400","Error","Não foi possível trazer os dados"));
 
-                    return res.status(200).json(JSON.parse(response));
+                    return res.status(200).json(response);
                 }
             )
             .catch(error => {
@@ -25,7 +24,7 @@ class EmployeeController {
         await service.create(req.body)
             .then(response => {
                 if(response == null)
-                    return res.status(400).json(new Output("400","Creation Error","O nome é obrigatório e não pode ser repetido"));
+                    return res.status(400).json(new Output("400","Creation Error","O dados são obrigatórios e o cpf não pode ser repetido."));
 
                 return res.status(200).json(response);
             })
@@ -41,7 +40,7 @@ class EmployeeController {
                 if(response == null)
                     return res.status(400).json(new Output("400","Not Found","O funcionário não foi encontrado"));
                 if(response == "Error")
-                    return res.status(400).json(new Output("400","Update Error","O id não pode ser repetido"));
+                    return res.status(400).json(new Output("400","Update Error","O cpf não pode ser repetido"));
                 return res.status(200).json(response);
             })
             .catch(error => {
@@ -51,7 +50,7 @@ class EmployeeController {
 
     async delete(req, res) {
         const code = req.params.code;
-        await service.delete(req.body, code)
+        await service.delete(code)
             .then(response => {
                 if(response == null)
                     return res.status(400).json(new Output("400","Not Found","O funcionário não foi encontrado"));

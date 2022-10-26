@@ -2,6 +2,7 @@ const mysql = require('mysql');
 
 var config =
 {
+    connectionLimit : 10,
     host: 'localhost',
     port:'3306',
     user: 'root', 
@@ -16,7 +17,7 @@ function Connect(){
         function (err) { 
         if (err) { 
             console.log("!!! Cannot connect !!! Error:");
-            //throw err;
+            throw err;
         }
         else
         {
@@ -29,4 +30,11 @@ function Connect(){
 }
 
 module.exports = { Connect }
+
+function Pool(){
+    const conn = new mysql.createPool(config);
+    return conn;
+}
+
+module.exports = { Pool }
 

@@ -1,27 +1,33 @@
 const mySqlConfig = require("../dao/mysql");
-const { Connect } = require("../dao/mysql");
+const { Pool } = require("../dao/mysql");
 
-let conn = "";
+let pool = "";
 class FeedbackDao{
     constructor(){
-        conn = Connect();
+        pool = Pool();
     }
 
-    readAllData(){
-        conn.query('CALL sp_get_feedback', 
-        function (err, results, fields) {
-            if (err) throw err;
-            else console.log('Selected ' + results.length + ' row(s).');
-            for (let i = 0; i <= results.length; i++) {
-                console.log('Row: ' + JSON.stringify(results[i]));
-            }
-            console.log('Done.');
-        })
-        conn.end(
-        function (err) { 
-            if (err) throw err;
-            else  console.log('Closing connection.') 
+    readAllData() {
+        const promise = new Promise((resolve, reject) => {
+            pool.getConnection(function(err, conn) {
+                if (err) rej(err);
+                console.log("Connection established.");
+                conn.query('SELECT * FROM tb_feedbacks',
+                    function (err, results, fields) {
+                        if (err) throw err;
+                        else console.log('Selected ' + results.length + ' row(s).');
+                        let response = []
+                        for (let i = 0; i < results.length; i++) {
+                            console.log('Row: ' + JSON.stringify(results[i]));
+                            response.push(JSON.stringify(results[i]));
+                        }
+                        console.log('Done.');
+                        resolve(response);
+                    })
+                conn.release();
+            });
         });
+        return promise;
     }
 
     insertData(body){
@@ -48,16 +54,21 @@ class FeedbackDao{
         });
     }
 
-    deleteData(code){
-        conn.query('CALL sp_delete_feedback(?)', code, 
-        function (err, results, fields) {
-            if (err) throw err;
-                console.log('Inserted ' + results.affectedRows + ' row(s).');
-        })
-        conn.end(function (err) { 
-            if (err) throw err;
-            else  console.log('Done.') 
-        });
+    deleteData(code) {
+        const promise = new Promise((resolve, reject) => {
+                pool.getConnection(function(err, conn) {
+                    if (err) rej(err);
+                    console.log("Connection established.");
+            conn.query('CALL sp_delete_feedback(?)', [code],
+                function (err, results, fields) {
+                    if (err) throw err;
+                    console.log('Inserted ' + results.affectedRows + ' row(s).');
+                    resolve(results);
+                })
+            conn.release();
+                });
+            });
+        return promise;
     }
 }
 
