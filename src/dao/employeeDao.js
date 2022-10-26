@@ -2,26 +2,31 @@ const mySqlConfig = require("../dao/mysql");
 const { Connect } = require("../dao/mysql");
 
 let conn = "";
-class EmployeeDao{
-    constructor(){
+class EmployeeDao {
+    constructor() {
         conn = Connect();
     }
 
-    async readAllData(){
-        conn.query('CALL sp_get_employee', 
-        function (err, results, fields) {
-            if (err) throw err;
-            else console.log('Selected ' + results.length + ' row(s).');
-            for (i = 0; i < results.length; i++) {
-                console.log('Row: ' + JSON.stringify(results[i]));
-            }
-            console.log('Done.');
-        })
-        conn.end(
-        function (err) { 
-            if (err) throw err;
-            else  console.log('Closing connection.') 
-        });
+    connect() {
+
+    }
+
+readAllData() {
+        conn.query('SELECT * FROM tb_employees',
+            function (err, results, fields) {
+                if (err) throw err;
+                else console.log('Selected ' + results.length + ' row(s).');
+                for (let i = 0; i <= results.length; i++) {
+                    console.log('Row: ' + JSON.stringify(results[i]));
+                    return JSON.stringify(results[i]);
+                }
+                console.log('Done.');
+            })
+    conn.end(
+            function (err) {
+                if (err) throw err;
+                else console.log('Closing connection.')
+            });
     }
 
     async readData(code){
@@ -35,10 +40,10 @@ class EmployeeDao{
             console.log('Done.');
         })
         conn.end(
-        function (err) { 
-            if (err) throw err;
-            else  console.log('Closing connection.') 
-        });
+            function (err) {
+                if (err) throw err;
+                else console.log('Closing connection.')
+            });
     }
 
     async insertData(body){
@@ -46,10 +51,10 @@ class EmployeeDao{
         function (err, results, fields) {
             if (err) throw err;
                 console.log('Inserted ' + results.affectedRows + ' row(s).');
-        })
-        conn.end(function (err) { 
+            })
+        conn.end(function (err) {
             if (err) throw err;
-            else  console.log('Done.') 
+            else console.log('Done.')
         });
     }
 
@@ -58,10 +63,10 @@ class EmployeeDao{
         function (err, results, fields) {
             if (err) throw err;
                 console.log('Inserted ' + results.affectedRows + ' row(s).');
-        })
-        conn.end(function (err) { 
+            })
+        conn.end(function (err) {
             if (err) throw err;
-            else  console.log('Done.') 
+            else console.log('Done.')
         });
     }
 
@@ -70,10 +75,10 @@ class EmployeeDao{
         function (err, results, fields) {
             if (err) throw err;
                 console.log('Inserted ' + results.affectedRows + ' row(s).');
-        })
-        conn.end(function (err) { 
+            })
+        conn.end(function (err) {
             if (err) throw err;
-            else  console.log('Done.') 
+            else console.log('Done.')
         });
     }
 }
