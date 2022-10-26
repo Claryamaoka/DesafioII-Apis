@@ -9,7 +9,8 @@ var config =
     database: 'lpiv_desafio_n1b2'
 };
 
-const conn = new mysql.createConnection(config);
+function Connect(){
+    const conn = new mysql.createConnection(config);
 
 conn.connect(
     function (err) {
@@ -27,4 +28,6 @@ conn.connect(
 function Connect(){
         return new mysql.createConnection(config);
     }
+
+module.exports = { Connect }
 
