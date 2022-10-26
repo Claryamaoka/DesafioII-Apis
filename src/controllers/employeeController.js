@@ -10,9 +10,9 @@ class EmployeeController {
         await service.find()
             .then(
                 response => {
-                    response = response.sort(function(a, b) { 
-                        (a.id - b.id);
-                      });
+                    if(response == null)
+                        return res.status(400).json(new Output("400","Error","Não foi possível trazer os dados"));
+
                     return res.status(200).json(response);
                 }
             )

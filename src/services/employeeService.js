@@ -5,14 +5,20 @@ const dao = require("../dao/employeeDao");
 
 class EmployeeService {
     async find() {
-        return dao.readAllData();
+        let response = dao.readAllData();
+        if(response)
+            return response;
+        else
+            return null;
     }
 
     async create(body){
         if(!body)
             return null;
         if(Validate.validateEmployee(body)){
-            return dao.insertData(body);
+            let response = dao.insertData(body);
+            if(response)
+                return response;
         }
         return null;   
     }
@@ -21,7 +27,11 @@ class EmployeeService {
         if(!body)
             return null;
         
-        return dao.updateData(body,code);
+        let response = dao.updateData(body,code);
+        if(response)
+            return response;
+        else
+            return null;
     }
 
     async delete(code){

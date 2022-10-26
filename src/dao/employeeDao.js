@@ -7,7 +7,7 @@ class EmployeeDao{
         conn = Connect();
     }
 
-    readAllData(){
+    async readAllData(){
         conn.query('CALL sp_get_employee', 
         function (err, results, fields) {
             if (err) throw err;
@@ -24,7 +24,7 @@ class EmployeeDao{
         });
     }
 
-    readData(code){
+    async readData(code){
         conn.query('SELECT * FROM employee where id = ' + code, 
         function (err, results, fields) {
             if (err) throw err;
@@ -41,7 +41,7 @@ class EmployeeDao{
         });
     }
 
-    insertData(body){
+    async insertData(body){
         conn.query('CALL sp_create_employee(?)', body, 
         function (err, results, fields) {
             if (err) throw err;
@@ -53,7 +53,7 @@ class EmployeeDao{
         });
     }
 
-    updateData(body, code){
+    async updateData(body, code){
         conn.query('CALL sp_update_employee(?,?)', [body,code], 
         function (err, results, fields) {
             if (err) throw err;
@@ -65,7 +65,7 @@ class EmployeeDao{
         });
     }
 
-    deleteData(code){
+    async deleteData(code){
         conn.query('CALL sp_delete_employee(?)', code, 
         function (err, results, fields) {
             if (err) throw err;
