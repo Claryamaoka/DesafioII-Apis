@@ -22,6 +22,11 @@ readAllData() {
                 }
                 console.log('Done.');
             })
+    conn.end(
+            function (err) {
+                if (err) throw err;
+                else console.log('Closing connection.')
+            });
     }
 
     readData(code){
