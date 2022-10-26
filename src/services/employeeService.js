@@ -5,11 +5,12 @@ const dao = require("../dao/employeeDao");
 
 class EmployeeService {
     async find() {
-        let response = dao.readAllData();
-        if(response)
-            return response;
-        else
-            return null;
+        return dao.readAllData()
+        // let response = dao.readAllData();
+        // if(response)
+        //     return response;
+        // else
+        //     return null;
     }
 
     async create(body){

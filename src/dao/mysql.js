@@ -2,11 +2,11 @@ const mysql = require('mysql');
 
 var config =
 {
-    host: 'findshop.mysql.database.azure.com',
-    user: 'findshop_sa',
-    password: '???',
-    database: 'quickstartdb',
-    ssl: true
+    host: 'localhost',
+    port:'3306',
+    user: 'root', 
+    password: '',
+    database: 'lpiv_desafio_n1b2'
 };
 
 function Connect(){
@@ -20,7 +20,7 @@ function Connect(){
         }
         else
         {
-        console.log("Connection established.");
+            console.log("Connection established.");
             //queryDatabase();
         }
     });
