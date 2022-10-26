@@ -10,9 +10,6 @@ class EmployeeController {
         await service.find()
             .then(
                 response => {
-                    response = response.sort(function(a, b) { 
-                        (a.id - b.id);
-                      });
                     return res.status(200).json(response);
                 }
             )
