@@ -9,6 +9,7 @@ class PositionDao{
 
     readAllData() {
         const promise = new Promise((resolve, reject) => {
+            console.log("Connection established.");
             pool.getConnection(function(err, conn) {
                 if (err) rej(err);
                 console.log("Connection established.");
@@ -32,6 +33,7 @@ class PositionDao{
 
     insertData(body) {
         const promise = new Promise((resolve, reject) => {
+            console.log("Connection established.");
             pool.getConnection(function(err, conn) {
             if (err) rej(err);
             conn.query('CALL sp_create_position(?,?,?,?,?,?)', [body.cpf,body.positionId,body.positionName,body.startDate,body.endDate,body.description],
@@ -48,6 +50,7 @@ class PositionDao{
 
     updateData(body, code){
         const promise = new Promise((resolve, reject) => {
+            console.log("Connection established.");
             pool.getConnection(function(err, conn) {
             if (err) rej(err);
             conn.query('CALL sp_edit_position(?,?,?,?,?)', [code,body.positionName,body.startDate,body.endDate,body.description],
@@ -64,6 +67,7 @@ class PositionDao{
 
     deleteData(code) {
         const promise = new Promise((resolve, reject) => {
+            console.log("Connection established.");
                 pool.getConnection(function(err, conn) {
                     if (err) rej(err);
                     console.log("Connection established.");

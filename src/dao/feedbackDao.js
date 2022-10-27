@@ -9,6 +9,7 @@ class FeedbackDao{
 
     readAllData() {
         const promise = new Promise((resolve, reject) => {
+            console.log("Connection established.");
             pool.getConnection(function(err, conn) {
                 if (err) rej(err);
                 console.log("Connection established.");
@@ -32,6 +33,7 @@ class FeedbackDao{
 
     insertData(body) {
         const promise = new Promise((resolve, reject) => {
+            console.log("Connection established.");
             pool.getConnection(function(err, conn) {
             if (err) rej(err);
             conn.query('CALL sp_create_feedback(?,?,?)', [body.cpf,body.feedbackId,body.feedback],
@@ -48,6 +50,7 @@ class FeedbackDao{
 
     updateData(body, code){
         const promise = new Promise((resolve, reject) => {
+            console.log("Connection established.");
             pool.getConnection(function(err, conn) {
             if (err) rej(err);
             conn.query('CALL sp_edit_feedback(?,?)', [code,body.feedback],
@@ -64,6 +67,7 @@ class FeedbackDao{
 
     deleteData(code) {
         const promise = new Promise((resolve, reject) => {
+            console.log("Connection established.");
                 pool.getConnection(function(err, conn) {
                     if (err) rej(err);
                     console.log("Connection established.");

@@ -49,6 +49,7 @@ class EmployeeDao {
 
     insertData(body) {
         const promise = new Promise((resolve, reject) => {
+            console.log("Connection established.");
             pool.getConnection(function(err, conn) {
             if (err) rej(err);
             pool.query('CALL sp_create_employee(?,?,?,?,?,?,?)', [body.name,body.rg,body.cpf,body.genre,body.birthday,body.admission,body.resignation],
@@ -65,6 +66,7 @@ class EmployeeDao {
     
     updateData(body, code) {
         const promise = new Promise((resolve, reject) => {
+            console.log("Connection established.");
             pool.getConnection(function(err, conn) {
             if (err) rej(err);
             conn.query('CALL sp_edit_employee(?,?,?,?)', [code,body.name,body.genre,body.resignation],
@@ -81,6 +83,7 @@ class EmployeeDao {
 
     deleteData(code) {
         const promise = new Promise((resolve, reject) => {
+            console.log("Connection established.");
                 pool.getConnection(function(err, conn) {
                     if (err) rej(err);
                     console.log("Connection established.");
