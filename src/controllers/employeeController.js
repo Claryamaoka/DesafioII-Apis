@@ -12,7 +12,12 @@ class EmployeeController {
                     if(response == null)
                         return res.status(400).json(new Output("400","Error","Não foi possível trazer os dados"));
 
-                    return res.status(200).json(response);
+                    let responseAPI = [];
+                    for (let i = 0; i < response.length; i++){
+                        responseAPI.push(JSON.parse(response[i]));
+                    }
+
+                    return res.status(200).json(responseAPI);
                 }
             )
             .catch(error => {
@@ -26,7 +31,7 @@ class EmployeeController {
                 if(response == null)
                     return res.status(400).json(new Output("400","Creation Error","O dados são obrigatórios e o cpf não pode ser repetido."));
 
-                return res.status(200).json(response);
+                return res.status(200).json('Sucess');
             })
             .catch(error => {
                 return res.status(500).json(error);

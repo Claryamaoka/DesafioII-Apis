@@ -48,12 +48,12 @@ class EmployeeDao {
     }
 
     async insertData2(body) {
-        conn.query('CALL sp_create_employee(?)', body,
+        pool.query('CALL sp_create_employee(?)', body,
             function (err, results, fields) {
                 if (err) throw err;
                 console.log('Inserted ' + results.affectedRows + ' row(s).');
             })
-        conn.end(function (err) {
+            pool.end(function (err) {
             if (err) throw err;
             else console.log('Done.')
         });
@@ -63,7 +63,7 @@ class EmployeeDao {
         const promise = new Promise((resolve, reject) => {
             pool.getConnection(function(err, conn) {
             if (err) rej(err);
-            conn.query('CALL sp_create_employee(?,?,?,?,?,?,?)', [body.name,body.rg,body.cpf,body.genre,body.birthday,body.admission,body.resignation],
+            pool.query('CALL sp_create_employee(?,?,?,?,?,?,?)', [body.name,body.rg,body.cpf,body.genre,body.birthday,body.admission,body.resignation],
                 function (err, results, fields) {
                     if (err) throw err;
                     console.log('Inserted ' + results.affectedRows + ' row(s).');
