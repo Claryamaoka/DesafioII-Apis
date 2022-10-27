@@ -9,6 +9,7 @@ class FeedbackController {
             .then(response => {
                 if(response == null)
                     return res.status(400).json(new Output("400","Creation Error","O nome é obrigatório e não pode ser repetido"));
+                
                 return res.status(200).json(response);
             })
             .catch(error => {
@@ -23,7 +24,11 @@ class FeedbackController {
                 response => {
                 if(response == null)
                     return res.status(400).json(new Output("400","Error","Não foi possível listar os feedbacks."));
-                return res.status(200).json(response);
+                let responseAPI = [];
+                for (let i = 0; i < response.length; i++){
+                    responseAPI.push(JSON.parse(response[i]));
+                }
+                return res.status(200).json(responseAPI);
                 }
             )
             .catch(error => {

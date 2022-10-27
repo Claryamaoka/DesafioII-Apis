@@ -8,10 +8,14 @@ class PositionController {
         await service.find()
             .then(
                 response => {
-                    response = response.sort(function(a, b) { 
-                        (a.cpf - b.cpf);
-                      });
-                    return res.status(200).json(response);
+                    // response = response.sort(function(a, b) { 
+                    //     (a.cpf - b.cpf);
+                    //   });
+                    let responseAPI = [];
+                    for (let i = 0; i < response.length; i++){
+                        responseAPI.push(JSON.parse(response[i]));
+                    }
+                    return res.status(200).json(responseAPI);
                 }
             )
             .catch(error => {
