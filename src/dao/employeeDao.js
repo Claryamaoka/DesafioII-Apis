@@ -47,18 +47,6 @@ class EmployeeDao {
             });
     }
 
-    async insertData2(body) {
-        conn.query('CALL sp_create_employee(?)', body,
-            function (err, results, fields) {
-                if (err) throw err;
-                console.log('Inserted ' + results.affectedRows + ' row(s).');
-            })
-        conn.end(function (err) {
-            if (err) throw err;
-            else console.log('Done.')
-        });
-    }
-
     insertData(body) {
         const promise = new Promise((resolve, reject) => {
             pool.getConnection(function(err, conn) {
@@ -75,19 +63,22 @@ class EmployeeDao {
         return promise;
     }
     
-
-    async updateData(body, code) {
-        conn.query('CALL sp_update_employee(?,?)', [body, code],
-            function (err, results, fields) {
-                if (err) throw err;
-                console.log('Inserted ' + results.affectedRows + ' row(s).');
-            })
-        conn.end(function (err) {
-            if (err) throw err;
-            else console.log('Done.')
+    updateData(body, code) {
+        const promise = new Promise((resolve, reject) => {
+            pool.getConnection(function(err, conn) {
+            if (err) rej(err);
+            conn.query('CALL sp_edit_employee(?,?,?,?)', [code,body.name,body.genre,body.resignation],
+                function (err, results, fields) {
+                    if (err) throw err;
+                    console.log('Updated ' + results.affectedRows + ' row(s).');
+                    resolve(results);
+                })
+            conn.release();
+            });
         });
+        return promise;
     }
-    
+
     deleteData(code) {
         const promise = new Promise((resolve, reject) => {
                 pool.getConnection(function(err, conn) {

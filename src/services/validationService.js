@@ -21,7 +21,7 @@ class ValidationService{
     }
 
     validatePosition(obj){
-        if(!obj.positionId || !obj.cpf || !obj.positionName || !obj.startDate||!obj.endDate)
+        if(!obj.positionId || !obj.cpf || !obj.positionName || !obj.startDate||!obj.endDate||!obj.description)
             return false;        
         return true;
     }

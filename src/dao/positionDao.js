@@ -30,28 +30,36 @@ class PositionDao{
         return promise;
     }
 
-    insertData(body){
-        conn.query('CALL sp_create_position(?)', body, 
-        function (err, results, fields) {
-            if (err) throw err;
-                console.log('Inserted ' + results.affectedRows + ' row(s).');
-        })
-        conn.end(function (err) { 
-            if (err) throw err;
-            else  console.log('Done.') 
+    insertData(body) {
+        const promise = new Promise((resolve, reject) => {
+            pool.getConnection(function(err, conn) {
+            if (err) rej(err);
+            conn.query('CALL sp_create_position(?,?,?,?,?,?)', [body.cpf,body.positionId,body.positionName,body.startDate,body.endDate,body.description],
+                function (err, results, fields) {
+                    if (err) throw err;
+                    console.log('Inserted ' + results.affectedRows + ' row(s).');
+                    resolve(results);
+                })
+            conn.release();
+            });
         });
+        return promise;
     }
 
     updateData(body, code){
-        conn.query('CALL sp_update_position(?,?)', [body,code], 
-        function (err, results, fields) {
-            if (err) throw err;
-                console.log('Inserted ' + results.affectedRows + ' row(s).');
-        })
-        conn.end(function (err) { 
-            if (err) throw err;
-            else  console.log('Done.') 
+        const promise = new Promise((resolve, reject) => {
+            pool.getConnection(function(err, conn) {
+            if (err) rej(err);
+            conn.query('CALL sp_edit_position(?,?,?,?,?)', [code,body.positionName,body.startDate,body.endDate,body.description],
+                function (err, results, fields) {
+                    if (err) throw err;
+                    console.log('Updated ' + results.affectedRows + ' row(s).');
+                    resolve(results);
+                })
+            conn.release();
+            });
         });
+        return promise;
     }
 
     deleteData(code) {
@@ -62,7 +70,7 @@ class PositionDao{
             conn.query('CALL sp_delete_position(?)', [code],
                 function (err, results, fields) {
                     if (err) throw err;
-                    console.log('Inserted ' + results.affectedRows + ' row(s).');
+                    console.log('Deleted ' + results.affectedRows + ' row(s).');
                     resolve(results);
                 })
             conn.release();

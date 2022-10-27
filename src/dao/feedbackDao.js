@@ -30,28 +30,36 @@ class FeedbackDao{
         return promise;
     }
 
-    insertData(body){
-        conn.query('CALL sp_create_feedback(?)', body, 
-        function (err, results, fields) {
-            if (err) throw err;
-                console.log('Inserted ' + results.affectedRows + ' row(s).');
-        })
-        conn.end(function (err) { 
-            if (err) throw err;
-            else  console.log('Done.') 
+    insertData(body) {
+        const promise = new Promise((resolve, reject) => {
+            pool.getConnection(function(err, conn) {
+            if (err) rej(err);
+            conn.query('CALL sp_create_feedback(?,?,?)', [body.cpf,body.feedbackId,body.feedback],
+                function (err, results, fields) {
+                    if (err) throw err;
+                    console.log('Inserted ' + results.affectedRows + ' row(s).');
+                    resolve(results);
+                })
+            conn.release();
+            });
         });
+        return promise;
     }
 
     updateData(body, code){
-        conn.query('CALL sp_update_feedback(?,?)', [body,code], 
-        function (err, results, fields) {
-            if (err) throw err;
-                console.log('Inserted ' + results.affectedRows + ' row(s).');
-        })
-        conn.end(function (err) { 
-            if (err) throw err;
-            else  console.log('Done.') 
+        const promise = new Promise((resolve, reject) => {
+            pool.getConnection(function(err, conn) {
+            if (err) rej(err);
+            conn.query('CALL sp_edit_feedback(?,?)', [code,body.feedback],
+                function (err, results, fields) {
+                    if (err) throw err;
+                    console.log('Updated ' + results.affectedRows + ' row(s).');
+                    resolve(results);
+                })
+            conn.release();
+            });
         });
+        return promise;
     }
 
     deleteData(code) {
