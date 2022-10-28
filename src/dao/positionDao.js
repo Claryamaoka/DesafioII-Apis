@@ -36,7 +36,7 @@ class PositionDao{
             console.log("Connection established.");
             pool.getConnection(function(err, conn) {
             if (err) rej(err);
-            conn.query('CALL sp_create_position(?,?,?,?,?,?)', [body.cpf,body.positionId,body.positionName,body.startDate,body.endDate,body.description],
+            conn.query('CALL sp_create_position(?,?,?,?,?)', [body.cpf,body.positionName,body.startDate,body.endDate,body.description],
                 function (err, results, fields) {
                     if (err) throw err;
                     console.log('Inserted ' + results.affectedRows + ' row(s).');

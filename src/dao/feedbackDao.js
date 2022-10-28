@@ -36,7 +36,7 @@ class FeedbackDao{
             console.log("Connection established.");
             pool.getConnection(function(err, conn) {
             if (err) rej(err);
-            conn.query('CALL sp_create_feedback(?,?,?)', [body.cpf,body.feedbackId,body.feedback],
+            conn.query('CALL sp_create_feedback(?,?)', [body.cpf,body.feedback],
                 function (err, results, fields) {
                     if (err) throw err;
                     console.log('Inserted ' + results.affectedRows + ' row(s).');
